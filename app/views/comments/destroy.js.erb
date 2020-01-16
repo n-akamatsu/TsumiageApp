@@ -1,0 +1,2 @@
+$("#comment-content-<%=@tsumiage_id%>").html("<%= escape_javascript(render('comments/comment_content')) %>");
+$("#comment-count-<%=@tsumiage_id%>").html('<%= @comments_count %>');

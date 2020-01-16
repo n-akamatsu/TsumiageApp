@@ -1,0 +1,40 @@
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+
+<% provide(:title, "新規投稿") %>
+<div class="background">
+  <div class="container form">
+    <div class="form-flash">
+      <% flash.each do |message_type, message| %>
+        <div class="flash"><p><%= message %></p></div> 
+      <% end %>
+    </div>
+
+    <h1>新規投稿</h1>
+
+    <div class="row">
+      <div class="col-md-8 col-md-offset-2">
+        <%= form_for(@tsumiage) do |f| %>
+        <%# <%= render 'shared/error_messages', object: f.object %>
+
+        <%= f.label :time, "時間(分)", class: 'login-text' %>
+        <%= f.number_field :time, class: 'form-control' %>
+
+        <%= f.label :genre, "ジャンル", class: 'login-text' %>
+        <%= f.select :genre, ['プログラミング', 'ブログ', '物販・せどり', '動画編集', 'youtube', '学業', '語学',  '資格・読書', '筋トレ・瞑想', 'その他'], selected: 'その他', class: 'form_control' %>
+
+        <%= f.label :content, "コメント", class: 'login-text' %>
+        <%= f.text_area :content, placeholder: "今日の積み上げを書こう！" %>
+
+        <%= f.label :more_tsumiage, class: "checkbox inline" do %>
+          <%= f.check_box :more_tsumiage %>
+          <span>さらに積み上げる！(このページにリダイレクトされるよ）</span>
+        <% end %>
+
+        <%= f.submit "積み上げる" , class: "form-btn" %>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>

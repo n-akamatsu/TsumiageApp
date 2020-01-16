@@ -1,0 +1,123 @@
+<% provide(:title, "みんなの積み上げ") %>
+
+<div class="top-wrapper">
+  <% flash.each do |message_type, message| %>
+    <div class="flash"><p><%= message %></p></div> 
+  <% end %>
+
+  <div class="tsumiage-corporate-container">
+    <%# <div class="parenthesis"> %>
+      <h1>みんなの積み上げ</h1>
+    <%# </div> %>
+    <div class="border"></div>
+    <p>ここではみんなの積み上げを見ることができるよ！<br>みんなの頑張りを見て刺激をもらおう！</p>
+    <img src="/images/tsumiage-corporate.jpg" alt="tsumiage-corporate">
+  
+    <%= link_to('積み上げる！', new_tsumiage_path, class: 'tsumiage-btn') %>
+  </div>
+  <div class="sub">
+  </div>
+</div>
+
+<% @user = User.find_by(id: @tsumiages.first.user_id) %>
+<% @day = @tsumiages.first.created_at %>
+<% @tsumiage_id = @tsumiages.first.id %>
+<% @id = @user.id %>
+
+<div class="all-container">
+
+  <div class="row">
+    <div class="tsumiage-container col-md-10 col-md-offset-1">
+      <div class="left">
+        <%= render 'shared/picture' %>
+        <%= link_to(@user.name, user_path(@user), class: 'name') %>
+      </div>
+      <div class="right">
+        <span class="day"><%= @day.strftime('%Y年 %m月 %d日') %></span>
+        <p class="tsumiage-logo">＃今日の積み上げ</p>
+  
+    <% @tsumiages.each do |tsumiage| %>
+      <% @user = User.find_by(id: tsumiage.user_id) %>
+    
+      <% if @id == @user.id %>
+
+        <%# 同じユーザーが日をまたいで投稿すると改行ができずにつながるので、同じユーザーの投稿のループ中に日付が変わった場合改行する設定を追加 %>
+        <% if @day != tsumiage.created_at %>
+            <div class="other-system">
+              <!-- いいね機能 -->
+              <span class="like"><%= render 'likes/likes' %></span>
+              <!-- コメント機能 -->
+              <%= render 'comments/comment' %>
+            </div>
+            <% @tsumiage_id = tsumiage.id %>
+            <!-- rigthクラスの閉じタグ -->
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="tsumiage-container  col-md-10 col-md-offset-1">
+            <div class="left">
+              <%= render 'shared/picture' %>
+              <%= link_to(@user.name, user_path(@user), class: 'name') %>
+            </div>
+            <div class="right">
+              <% @day = tsumiage.created_at %>
+              <span class="day"><%= @day.strftime('%Y年 %m月 %d日') %></span>
+              <p class="tsumiage-logo">＃今日の積み上げ</p>
+        <% end %>
+        
+          <span class="text">
+            <span class="tsumiage-genre"><%= tsumiage.genre %></span>
+            <span class="tsumiage-time"><i class="far fa-clock"></i><%= tsumiage.time %>分</span>
+            <span class="tsumiage-content"><%= tsumiage.content %></span>
+            <% if @id == current_user.id %>
+              <span><i class="fas fa-trash-alt"></i><%= link_to "削除", tsumiage, method: :delete, data: { confirm: "削除して大丈夫ですか?" }, class: 'delete' %></span>
+            <% end %>
+          </span>
+      <% else %>
+          <div class="other-system">
+            <!-- いいね機能 -->
+            <span class="like"><%= render 'likes/likes' %></span>
+            <!-- コメント機能 -->
+            <%= render 'comments/comment' %>
+          </div>
+          <!-- rigthクラスの閉じタグ -->
+          </div>
+          <% @tsumiage_id = tsumiage.id %>
+        </div>
+      </div>
+      <div class="row">
+        <div class="tsumiage-container col-md-10 col-md-offset-1">
+          <% @id = @user.id %>
+          <% @day = tsumiage.created_at %>
+          <div class="left">
+            <%= render 'shared/picture' %>
+            <%= link_to(@user.name, user_path(@user), class: 'name') %>
+          </div>
+          <div class="right">
+            <span class="day"><%= @day.strftime('%Y年 %m月 %d日') %></span>
+            <p class="tsumiage-logo">＃今日の積み上げ</p>
+            
+            <span class="text">
+              <span class="tsumiage-genre"><%= tsumiage.genre %></span>
+              <span class="tsumiage-time"><i class="far fa-clock"></i><%= tsumiage.time %>分</span>
+              <span class="tsumiage-content"><%= tsumiage.content %></span>
+              <% if @id == current_user.id %>
+                <span><i class="fas fa-trash-alt"></i><%= link_to "削除", tsumiage, method: :delete, data: { confirm: "削除して大丈夫ですか?" }, class: 'delete' %></span>
+              <% end %>
+            </span>
+      <% end %>
+    <% end %>
+
+      <div class="other-system">
+        <!-- いいね機能 -->
+        <span class="like"><%= render 'likes/likes' %></span>
+        <!-- コメント機能 -->
+        <%= render 'comments/comment' %>
+      </div>
+      <!-- rigthクラスの閉じタグ -->
+      </div>
+    </div>
+  </div>
+
+</div>

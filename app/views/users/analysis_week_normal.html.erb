@@ -1,0 +1,56 @@
+<% provide(:title, "データ分析") %>
+
+
+<div class="data-container">
+  <div class="search-container">
+    <span class="period">
+      <div class="period-container">
+        <%= link_to('日', analysis_user_path, class: 'day-btn') %>
+        <%= link_to('週', analysis_week_normal_user_path, class: 'day-btn') %>
+        <%= link_to('月', analysis_month_normal_user_path, class: 'day-btn') %>
+      </div>
+    </span>
+
+    <div class="click-container">
+      <%= form_for(@user, url: analysis_week_user_path, method: :get) do |f| %>
+        <label class="control-label" for="">積み上げ日</label>
+        <%= f.week_field :week, value: @week, class: 'day-search' %>
+
+        <%= f.submit '変更', class: 'search-btn' %>
+      <% end %>
+    </div>
+  </div>
+
+  <div class="title-container">
+    <h1 class="title">ジャンル別　データ</h1>
+  </div>
+  <div class="border"></div>
+  <div class="row pie-chart">
+    <div class="col-md-5 col-md-offset-1">
+      <%= pie_chart @circle_chart %>
+    </div>
+
+    <div class="col-md-5">
+      <div class="page-layout page-style">
+        <div class="total">
+          <span class = "sum">積み上げ時間</span><span class = "total-time"><%= @total_time %>分</span>
+        </div>
+        <dl class="dl-small">
+          <% @tsumiage_table.each do |key, value| %>
+            <dt><%= key %></dt>
+            <dd><%= value %>分</dd>
+          <% end %>
+        </dl>
+      </div>
+    </div>
+  </div>
+
+
+  <div class="title-container">
+    <h1 class="title">時間推移　データ</h1>
+  </div>
+  <div class="border"></div>
+  <div class="column-chart">
+    <%= column_chart @column_chart, xtitle: "日付(週)", ytitle: "時間(分)" %>
+  </div>
+</div>

@@ -1,0 +1,14 @@
+<%= link_to open_path(@tsumiage_id), method: :get, remote: true do %>
+  <div class="comment-text">
+    <p>
+      コメント
+      <span id="comment-count-<%= @tsumiage_id %>">
+        <%=Comment.where(post_id: @tsumiage_id).count%>
+      </span>
+      件
+    </p>
+  </div>
+<% end %>
+
+<div id="comment-<%=@tsumiage_id%>">
+</div>

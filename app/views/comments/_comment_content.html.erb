@@ -1,0 +1,23 @@
+
+<% Comment.where(post_id: @tsumiage_id).order(created_at: :asc).each do |comment| %>
+  <div class="comment-container">
+    <div class="left">
+      <% @user = User.find_by(id: comment.user_id) %>
+      <%= render 'shared/picture' %>
+      <%= link_to(@user.name, user_path(@user), class: 'name') %>
+    </div>
+    <div class="right">
+      <div class="text">
+        <%= comment.content %>
+      </div>
+    </div>
+    <div class="time">
+      <%= time_ago_in_words(comment.created_at) %>前
+    </div>
+    <% if comment.user_id == current_user.id %>
+      <div class="delete">
+        <%= link_to '削除' ,uncomment_path(@tsumiage_id), method: :delete, remote: true, class: 'delete' %>
+      </div>
+    <% end %>
+  </div>
+<% end %>

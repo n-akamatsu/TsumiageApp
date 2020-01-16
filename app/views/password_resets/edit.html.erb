@@ -1,0 +1,34 @@
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+
+<% provide(:title, 'パスワードのリセット') %>
+<div class="background">
+  <div class="container form">
+    <div class="form-flash">
+    <% flash.each do |message_type, message| %>
+      <div class="flash"><p><%= message %></p></div> 
+    <% end %>
+  </div>
+
+    <h1>パスワードのリセット</h1>
+
+    <div class="row">
+      <div class="col-md-8 col-md-offset-2">
+        <%= form_for(@user, url: password_reset_path(params[:id])) do |f| %>
+        <%= render 'shared/error_messages', object: f.object %>
+
+        <%= hidden_field_tag :email, @user.email %>
+
+        <%= f.label :password, "パスワード", class: 'login-text' %>
+        <%= f.password_field :password, class: 'form-control' %>
+
+        <%= f.label :password_confirmation, "パスワード確認", class: 'login-text' %>
+        <%= f.password_field :password_confirmation, class: 'form-control' %>
+
+        <%= f.submit "パスワードを変更する", class: 'form-btn' %>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>

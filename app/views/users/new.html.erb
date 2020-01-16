@@ -1,0 +1,43 @@
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+
+<% provide(:title, "新規登録") %>
+<div class="background">
+  <div class="container form">
+    <div class="form-flash">
+      <% flash.each do |message_type, message| %>
+        <div class="flash"><p><%= message %></p></div> 
+      <% end %>
+    </div>
+
+    <h1>新規登録</h1>
+
+    <div class="row">
+      <div class="col-md-8 col-md-offset-2">
+        <%= form_for(@user) do |f| %>
+        <%# <%= render 'shared/error_messages', object: f.object %>
+
+        <%= f.label :name, "名前", class: 'login-text' %>
+        <%= f.text_field :name, class: 'form-control' %>
+
+        <%= f.label :email, "メールアドレス", class: 'login-text' %>
+        <%= f.email_field :email, class: 'form-control' %>
+
+        <%= f.label :password, "パスワード", class: 'login-text' %>
+        <%= f.password_field :password, class: 'form-control' %>
+
+        <%= f.label :password_confirmation, "パスワード確認", class: 'login-text' %>
+        <%= f.password_field :password_confirmation, class: 'form-control' %>
+
+        <span class="picture">
+        <p><span class="login-text">プロフィール写真</span>（選択されていない場合はデフォルト画像で登録します）</p>
+          <%= f.file_field :picture %>
+        </span>
+
+        <%= f.submit "新規登録" , class: "btn btn-primary", class: 'form-btn' %>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>

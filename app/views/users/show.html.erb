@@ -1,0 +1,148 @@
+<% provide(:title, "#{@user.name}の積み上げ") %>
+
+<div class="show-wrapper">
+  <% flash.each do |message_type, message| %>
+    <div class="flash"><p><%= message %></p></div> 
+  <% end %>
+
+  <div class="tsumiage-corporate-container">
+    <% if current_user.id != @user.id %>
+    <div class="other-page">
+      <%# <div class="parenthesis"> %>
+          <h1><%= @user.name %>さんの積み上げ</h1>
+        <%# </div> %>
+        <div class="border"></div>
+        <div class="comment">
+          <img src="/images/good-job.jpg" alt="good-jop">
+          <p><%= @user.name%>さん、頑張ってるね！</p>
+        </div>
+        <div class="analysis">
+          <p><%= @user.name%>さんの分析データを見てみよう！何か参考になるかもしれないよ！</p>
+          <%= link_to('分析データ', analysis_user_path(@user), class: 'tsumiage-btn') %>
+        </div>
+        <div class="tsumiage-link">
+          <p>まだ積み上げてないですか…？</p>
+          <%= link_to('積み上げよう！', new_tsumiage_path, class: 'tsumiage-btn') %>
+        </div>
+        </div>
+        <div class="sub">
+    </div>
+    <% else %>
+    <div class="my-page">
+      <%# <div class="parenthesis"> %>
+        <h1>Myスキルアップページ</h1>
+      <%# </div> %>
+      <div class="border"></div>
+      <div class="comment">
+        <p>成長するためには積み上げの過程を振り返ることが不可欠！</p>
+        <p>分析データを見たり、過去の投稿を見て自己研鑽しよう‼</p>
+        <p>モチベーションが上がってきたら、近くのカフェでさらに積み上げよう‼</p>
+      </div>
+      <div class="row">
+        <div class="my-analysis col-md-6">
+          <div class="text">
+            <h1>Analysis</h1>
+            <span class="border"></span>
+            <p>自分だけのオリジナル分析データ</p>
+            <%= link_to('分析データ', analysis_user_path(@user), class: 'tsumiage-btn') %>
+          </div>
+        </div>
+        <div class="cafe-search col-md-6">
+          <div class="text">
+            <h1>Search</h1>
+            <span class=border></span>
+            <p>GPSで現在地から近くのカフェを検索</p>
+            <%= link_to('近くのカフェを探す', map_path, class: 'tsumiage-btn') %>
+          </div>
+        </div>
+      </div>
+    </div>
+    <% end %>
+  </div>
+</div>
+
+<% if @user.tsumiages.any? %>
+  <% @day = @tsumiages.first.created_at %>
+  <% @tsumiage_id = @tsumiages.first.id %>
+  <% @id = @user.id %>
+
+  <!-- マイページにのみ検索機能を追加 -->
+  <% if current_user.id == @user.id %>
+    <div class="search">
+      <div class="title">
+        <h1>積み上げ検索</h1>
+      </div>
+      <div class="alert">
+        <% if @alert %>
+        <i class="fas fa-exclamation-triangle"></i><%= @alert %>
+        <% end %>
+      </div>
+      <%= form_tag user_path(@user), :method => 'get' do %>
+        <p>
+          <%= date_field_tag :date, params[:date], value: Time.now.strftime("%Y-%m-%d") %>
+          <%= submit_tag "検索", :date => nil%>
+        </p>
+      <% end %>
+    </div>
+  <% end %>
+
+
+    <!-- 今日の積み上げを表示 -->
+    <div class="row">
+      <div class="tsumiage-show-container col-md-8 col-md-offset-2">
+        <span class="day"><%= @day.strftime('%Y年 %m月 %d日') %></span>
+        <p class="tsumiage-logo">＃今日の積み上げ</p>
+        <% @tsumiages.each do |tsumiage| %>
+          <% if tsumiage.created_at == @day %>
+            <span class="text">
+              <span class="tsumiage-genre"><%= tsumiage.genre %></span>
+              <span class="tsumiage-time"><i class="far fa-clock"></i><%= tsumiage.time %>分</span>
+              <span class="tsumiage-content"><%= tsumiage.content %></span>
+              <% if @id == current_user.id %>
+                <span><i class="fas fa-trash-alt"></i><%= link_to "削除", tsumiage, method: :delete, data: { confirm: "削除して大丈夫ですか?" }, class: 'delete' %></span>
+              <% end %>
+              <br>
+            </span>
+            <%# 最後の投稿のpost_idでlikeとcommentに結び付けるために毎回更新する %>
+            <% @tsumiage_id = tsumiage.id %>
+          <% else %>
+            <div class="other-system">
+              <!-- いいね機能 -->
+              <span class="like"><%= render 'likes/likes' %></span>
+              <!-- コメント機能 -->
+              <%= render 'comments/comment' %>
+            </div>
+      </div>
+    </div>
+            <!-- 翌日に日付を更新 -->
+            <% @day = tsumiage.created_at %>
+    <div class="row">
+      <div class="tsumiage-show-container col-md-8 col-md-offset-2">
+        <span class="day"><%= @day.strftime('%Y年 %m月 %d日') %></span>
+        <p class="tsumiage-logo">＃今日の積み上げ</p>
+            <span class="text">
+              <span class="tsumiage-genre"><%= tsumiage.genre %></span>
+              <span class="tsumiage-time"><i class="far fa-clock"></i><%= tsumiage.time %>分</span>
+              <span class="tsumiage-content"><%= tsumiage.content %></span>
+              <% if @id == current_user.id %>
+                <span><i class="fas fa-trash-alt"></i><%= link_to "削除", tsumiage, method: :delete, data: { confirm: "削除して大丈夫ですか?" }, class: 'delete' %></span>
+              <% end %>
+              <br>
+            </span>
+          <!-- if tsumiage.created_at == @dayの閉じタグ -->
+          <% end %>
+        <!-- each doの閉じタグ -->
+        <% end %>
+
+        <div class="other-system">
+          <!-- いいね機能 -->
+          <span class="like"><%= render 'likes/likes' %></span>
+          <!-- コメント機能 -->
+          <%= render 'comments/comment' %>
+        </div>
+      </div>
+    </div>
+
+  <% end %>
+
+</div>

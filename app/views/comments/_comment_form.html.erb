@@ -1,0 +1,14 @@
+<div id="comment-content-<%=@tsumiage_id%>">
+  <% if Comment.where(post_id: @tsumiage_id).any? %>
+    <%= render 'comment_content' %>
+  <% end %>
+</div>
+
+<%= form_for(:comment, url: comment_path(@tsumiage_id), data: { remote: true }) do |f| %>
+  <%= f.label :content, "コメント", class: 'comment-label' %>
+  <%= f.text_area :content, placeholder: "何かコメントを書こう！", class: 'comment-context' %>
+
+  <%= f.submit "送信", class:'comment-form' %>
+<% end %>
+
+<%= link_to '閉じる', close_path(@tsumiage_id), method: :get, remote: true %>

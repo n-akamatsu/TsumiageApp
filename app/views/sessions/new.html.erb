@@ -1,0 +1,39 @@
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+
+<% provide(:title, "ログイン") %>
+<div class="container form">
+  <div class="form-flash">
+    <% flash.each do |message_type, message| %>
+      <div class="flash"><p><%= message %></p></div> 
+    <% end %>
+  </div>
+
+  <h1>ログイン</h1>
+
+  <div class="row">
+    <div class="col-md-8 col-md-offset-2">
+      <%= form_for(:session, url: login_path) do |f| %>
+
+        <%= f.label :email, "メールアドレス", class: 'login-text' %>
+        <%= f.email_field :email, class: 'form-control' %>
+
+        <%= f.label :password, "パスワード", class: 'login-text' %>
+        <%# <%= link_to "パスワードを忘れた", new_password_reset_path %>
+        <%= f.password_field :password, class: 'form-control' %>
+
+        <%= f.label :remember_me, class: "checkbox inline" do %>
+          <%= f.check_box :remember_me %>
+          <span>このコンピューターに登録内容を保存する</span>
+        <% end %>
+
+        <%= f.submit "ログイン", class: 'form-btn' %>
+      <% end %>
+
+      <%= form_for(:session, url: easy_login_path) do |f| %>
+        <% f.submit "簡単ログイン", class: 'form-btn' %>
+      <% end %>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,27 @@
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+
+<% provide(:title, "パスワードを忘れた") %>
+<div class="background">
+  <div class="container form">
+    <div class="form-flash">
+      <% flash.each do |message_type, message| %>
+        <div class="flash"><p><%= message %></p></div> 
+      <% end %>
+    </div>
+
+    <h1>パスワードのリセットメール</h1>
+
+    <div class="row">
+      <div class="col-md-8 col-md-offset-2">
+        <%= form_for(:password_reset, url: password_resets_path) do |f| %>
+        <%= f.label :email, "メールアドレス", class: 'login-text' %>
+        <%= f.email_field :email, class: 'form-control' %>
+
+        <%= f.submit "送信", class: 'form-btn' %>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>

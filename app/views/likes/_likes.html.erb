@@ -1,0 +1,22 @@
+<span>
+  <% @likes_count = Like.where(post_id: @tsumiage_id).count %>
+    <% if current_user.id == @id %>
+      <% if @likes_count != 0 %>
+        <span class="fa fa-heart like-btn-unlike"></span>
+      <% else %>
+        <span class="fa fa-heart like-btn"></span>
+      <% end %>
+      <%= @likes_count %>
+    <% else %>
+      <span id="like-ajax-<%=@tsumiage_id%>">
+        <% if Like.find_by(user_id: current_user.id, post_id: @tsumiage_id) %>
+          <%= render 'likes/destroy' %>
+        <% else %>
+          <%= render 'likes/create' %>
+        <% end %>
+      </span>
+      <span id="like-count-<%=@tsumiage_id%>">
+        <%= @likes_count %>
+      </span>
+    <% end %>
+</span>

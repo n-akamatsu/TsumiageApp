@@ -1,0 +1,9 @@
+<% if @user.picture? %>
+  <%= link_to user_path(@user) do %>
+    <%= image_tag @user.picture.url, class: "profile-picture" %>
+  <% end %>
+<% else %>
+  <%= link_to user_path(@user) do %>
+    <%= image_tag 'images.jpg', class: "profile-picture" %>
+  <% end %>
+<% end %>
