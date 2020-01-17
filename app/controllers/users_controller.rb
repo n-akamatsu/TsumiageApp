@@ -1,6 +1,5 @@
 class UsersController < ApplicationController
-  before_action :logged_in_user, only: [:index, :edit, :update, :destroy,
-                                          :following, :followers]
+  before_action :logged_in_user, only: [:index, :edit, :update, :destroy]
   before_action :correct_user,   only: [:edit, :update]
   before_action :sample_user,    only: [:edit, :update]
 
@@ -131,16 +130,6 @@ class UsersController < ApplicationController
     @tsumiage_table = @user.tsumiages.where(created_at: @month_to_date.in_time_zone.all_month).group(:genre).order(time: :desc).order(created_at: :desc).sum(:time).sort_by{| k,v | v}.reverse
     @circle_chart = @user.tsumiages.where(created_at: @month_to_date.in_time_zone.all_month).group(:genre).order(time: :desc).order(created_at: :desc).sum(:time).sort_by{| k,v | v}.reverse
     @column_chart = @user.tsumiages.order(created_at: :asc).group_by_month(:created_at).sum(:time)
-  end
-
-
-  def close
-    @tsumiage_id = params[:tsumiage_id]
-
-    respond_to do |format|
-      format.html { redirect_to users_url }
-      format.js
-    end
   end
 
 

@@ -27,8 +27,6 @@ class CommentsController < ApplicationController
     end
   end
 
-  def edit
-  end
 
   def open
     @tsumiage_id = params[:tsumiage_id]
