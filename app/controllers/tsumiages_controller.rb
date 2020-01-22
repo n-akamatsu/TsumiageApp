@@ -32,7 +32,7 @@ class TsumiagesController < ApplicationController
 
   def destroy
     @tsumiage.destroy
-    flash[:success] = "「みんなの投稿」が削除されました"
+    flash[:success] = "投稿が削除されました"
     redirect_to request.referrer || root_url
     # request.referrer  このメソッドは一つ前のURLを返します
   end

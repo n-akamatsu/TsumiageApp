@@ -1,9 +1,9 @@
 <header>
-  <!-- <div class="left">
+  <div class="left">
     <% if logged_in? %>
       <h1><%= link_to "TsumiageApp", users_path, class: 'color-white' %></h1>
     <% end %>
-  </div> -->
+  </div>
   <div class="wrapper">
     <div class="menu-trigger" href="">
       <span></span>
@@ -16,6 +16,7 @@
           <li><%= link_to "ホーム", users_path %></li>
           <li><%= link_to "マイページ", user_path(current_user) %></li>
           <li><%= link_to "＃今日の積み上げ", new_tsumiage_path %></li>
+          <li><%= link_to "分析ページ", analysis_user_path(current_user) %></li>
           <li><%= link_to "近くのカフェを探す", map_path %></li>
           <li><%= link_to "アカウント設定", edit_user_path(current_user) %></li>
           <li><%= link_to "ログアウト", logout_path, method: :delete %></li>

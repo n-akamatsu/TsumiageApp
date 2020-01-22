@@ -1,5 +1,6 @@
 class UsersController < ApplicationController
-  before_action :logged_in_user, only: [:index, :edit, :update, :destroy]
+  before_action :logged_in_user, only: [:index, :edit, :update, :destroy,
+                                        :analysis, :analysis_day, :analysis_week_normal, :analysis_week, :analysis_month_normal, :analysis_month]
   before_action :correct_user,   only: [:edit, :update]
   before_action :sample_user,    only: [:edit, :update]
 
@@ -11,11 +12,15 @@ class UsersController < ApplicationController
     @user = User.find(params[:id])
     # 検索されているとき
     if params[:date]
-      if @user.tsumiages.where(created_at: params[:date].in_time_zone.all_day).any?
-        @tsumiages = @user.tsumiages.where(created_at: params[:date].in_time_zone.all_day)
+      if params[:date].length >= 1
+        if @user.tsumiages.where(created_at: params[:date].in_time_zone.all_day).any?
+          @tsumiages = @user.tsumiages.where(created_at: params[:date].in_time_zone.all_day)
+        else
+          @tsumiages = @user.tsumiages.order(created_at: :desc)
+          @alert = "その日の積み上げはありません"
+        end
       else
         @tsumiages = @user.tsumiages.order(created_at: :desc)
-        @alert = "その日の積み上げはありません"
       end
     # 検索されていないとき
     else
@@ -60,18 +65,17 @@ class UsersController < ApplicationController
     redirect_to root_url
   end
 
-  
+
   def analysis
     @user = User.find_by(id: params[:id])
     @day = Date.today
     @total_time = @user.tsumiages.where(created_at: @day.in_time_zone.all_day).sum(:time)
-    @tsumiage_table = @user.tsumiages.where(created_at: @day.in_time_zone.all_day).group(:genre).order(time: :desc).order(created_at: :desc).sum(:time).sort_by{| k,v | v}.reverse
+    @tsumiage_table = @circle_chart = @user.tsumiages.where(created_at: @day.in_time_zone.all_day).group(:genre).order(time: :desc).order(created_at: :desc).sum(:time).sort_by{| k,v | v}.reverse
     if @user.tsumiages.any?
       @most_tsumiage = @user.tsumiages.group(:genre).sum(:time).sort_by{| k,v | v}.reverse.first
       @average_tsumiage = (@user.tsumiages.sum(:time)) / (@user.tsumiages.group(:created_at).count.length)
     end
 
-    @circle_chart = @user.tsumiages.where(created_at: @day.in_time_zone.all_day).group(:genre).order(time: :desc).order(created_at: :desc).sum(:time).sort_by{| k,v | v}.reverse
     @column_chart = @user.tsumiages.order(created_at: :asc).group_by_day(:created_at).sum(:time)
   end
 
@@ -79,13 +83,12 @@ class UsersController < ApplicationController
     @user = User.find_by(id: params[:id])
     @day = params[:user][:day]
     @total_time = @user.tsumiages.where(created_at: @day.in_time_zone.all_day).sum(:time)
-    @tsumiage_table = @user.tsumiages.where(created_at: @day.in_time_zone.all_day).group(:genre).order(time: :desc).order(created_at: :desc).sum(:time).sort_by{| k,v | v}.reverse
+    @tsumiage_table = @circle_chart = @user.tsumiages.where(created_at: @day.in_time_zone.all_day).group(:genre).order(time: :desc).order(created_at: :desc).sum(:time).sort_by{| k,v | v}.reverse
     if @user.tsumiages.any?
       @most_tsumiage = @user.tsumiages.group(:genre).sum(:time).sort_by{| k,v | v}.reverse.first
       @average_tsumiage = (@user.tsumiages.sum(:time)) / (@user.tsumiages.group(:created_at).count.length)
     end
-    
-    @circle_chart = @user.tsumiages.where(created_at: @day.in_time_zone.all_day).group(:genre).order(time: :desc).order(created_at: :desc).sum(:time).sort_by{| k,v | v}.reverse
+
     @column_chart = @user.tsumiages.order(created_at: :asc).group_by_day(:created_at).sum(:time)
   end
 
@@ -95,8 +98,7 @@ class UsersController < ApplicationController
     @day = Date.today
     @week = @day_show.strftime('%Y-W%W')
     @total_time = @user.tsumiages.where(created_at: @day.in_time_zone.all_week).sum(:time)
-    @tsumiage_table = @user.tsumiages.where(created_at: @day.in_time_zone.all_week).group(:genre).order(time: :desc).order(created_at: :desc).sum(:time).sort_by{| k,v | v}.reverse
-    @circle_chart = @user.tsumiages.where(created_at: @day.in_time_zone.all_week).group(:genre).order(time: :desc).order(created_at: :desc).sum(:time).sort_by{| k,v | v}.reverse
+    @tsumiage_table = @circle_chart = @user.tsumiages.where(created_at: @day.in_time_zone.all_week).group(:genre).order(time: :desc).order(created_at: :desc).sum(:time).sort_by{| k,v | v}.reverse
     @column_chart = @user.tsumiages.order(created_at: :asc).group_by_week(:created_at).sum(:time)
   end
 
@@ -105,8 +107,7 @@ class UsersController < ApplicationController
     @week = params[:user][:week]
     @week_to_date = @week.to_date
     @total_time = @user.tsumiages.where(created_at: @week_to_date.in_time_zone.all_week).sum(:time)
-    @tsumiage_table = @user.tsumiages.where(created_at: @week_to_date.in_time_zone.all_week).group(:genre).order(time: :desc).order(created_at: :desc).sum(:time).sort_by{| k,v | v}.reverse
-    @circle_chart = @user.tsumiages.where(created_at: @week_to_date.in_time_zone.all_week).group(:genre).order(time: :desc).order(created_at: :desc).sum(:time).sort_by{| k,v | v}.reverse
+    @tsumiage_table = @circle_chart = @user.tsumiages.where(created_at: @week_to_date.in_time_zone.all_week).group(:genre).order(time: :desc).order(created_at: :desc).sum(:time).sort_by{| k,v | v}.reverse
     @column_chart = @user.tsumiages.order(created_at: :asc).group_by_week(:created_at).sum(:time)
   end
 
@@ -116,8 +117,7 @@ class UsersController < ApplicationController
     @month = @day.strftime('%Y-%m')
     # strftimeを用いて'2019-12'を作って代入
     @total_time = @user.tsumiages.where(created_at: @day.in_time_zone.all_month).sum(:time)
-    @tsumiage_table = @user.tsumiages.where(created_at: @day.in_time_zone.all_month).group(:genre).order(time: :desc).order(created_at: :desc).sum(:time).sort_by{| k,v | v}.reverse
-    @circle_chart = @user.tsumiages.where(created_at: @day.in_time_zone.all_month).group(:genre).order(time: :desc).order(created_at: :desc).sum(:time).sort_by{| k,v | v}.reverse
+    @tsumiage_table = @circle_chart = @user.tsumiages.where(created_at: @day.in_time_zone.all_month).group(:genre).order(time: :desc).order(created_at: :desc).sum(:time).sort_by{| k,v | v}.reverse
     @column_chart = @user.tsumiages.order(created_at: :asc).group_by_month(:created_at).sum(:time)
   end
 
@@ -127,8 +127,7 @@ class UsersController < ApplicationController
     @month_to_date = @month+'-1'
     # 文字列を足して'2019-12-1'を作り出した。@month.to_dateが使えなかったため
     @total_time = @user.tsumiages.where(created_at: @month_to_date.in_time_zone.all_month).sum(:time)
-    @tsumiage_table = @user.tsumiages.where(created_at: @month_to_date.in_time_zone.all_month).group(:genre).order(time: :desc).order(created_at: :desc).sum(:time).sort_by{| k,v | v}.reverse
-    @circle_chart = @user.tsumiages.where(created_at: @month_to_date.in_time_zone.all_month).group(:genre).order(time: :desc).order(created_at: :desc).sum(:time).sort_by{| k,v | v}.reverse
+    @tsumiage_table = @circle_chart = @user.tsumiages.where(created_at: @month_to_date.in_time_zone.all_month).group(:genre).order(time: :desc).order(created_at: :desc).sum(:time).sort_by{| k,v | v}.reverse
     @column_chart = @user.tsumiages.order(created_at: :asc).group_by_month(:created_at).sum(:time)
   end
 

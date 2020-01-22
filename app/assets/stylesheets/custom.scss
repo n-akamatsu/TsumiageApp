@@ -10,8 +10,7 @@ body {
 // フラッシュ
 
 .flash{
-  margin-top: 25px;
-  margin-bottom: 30px;
+  margin: 0;
 
   p{
   font-size: 15px;
@@ -46,6 +45,13 @@ header{
       }
     }
   }
+
+  @media(max-width: 500px){
+    .left{
+      display: none;
+    }
+  }
+
 
   .wrapper {
     height: 100%;
@@ -531,7 +537,7 @@ footer .others{
 .top-wrapper{
   background-color: #F9C001;
   width: 100%;
-  padding: 70px 0 0 0;
+  padding: 20px 0 0 0;
   margin-bottom: 50px;
   text-align: center;
 
@@ -579,7 +585,7 @@ footer .others{
       width: 8%;
       height: 3px;
       border: 1px solid #333;
-      margin: 0 auto 50px auto;
+      margin: 0 auto 25px auto;
     }
 
     h1{
@@ -639,7 +645,7 @@ footer .others{
 .show-wrapper{
   background-color: #F9C001;
   width: 100%;
-  padding: 70px 0 0 0;
+  padding: 20px 0 0 0;
   text-align: center;
 
   .tsumiage-corporate-container{
@@ -733,7 +739,7 @@ footer .others{
       .tsumiage-btn{
         background-color: rgb(0, 0, 0);
         color: #fff;
-        font-size: 20px;
+        font-size: 26px;
         margin: 0 auto;
         padding: 10px 30px;
         border: 2px solid yellow;
@@ -813,7 +819,7 @@ footer .others{
         width: 8%;
         height: 3px;
         border: 1px solid #333;
-        margin: 0 auto 50px auto;
+        margin: 0 auto 15px auto;
       }
 
       h1{
@@ -881,9 +887,9 @@ footer .others{
         .tsumiage-btn{
           background-color: #333;
           color: #fff;
-          font-size: 20px;
+          font-size: 32px;
           margin: 0 auto;
-          padding: 10px 30px;
+          padding: 10px 45px;
           border: 2px solid yellow;
           border-radius: 30px;
           margin-top: 50px;
@@ -983,7 +989,7 @@ footer .others{
         .tsumiage-genre{
           width: 90%;
           background-color: rgba(255, 253, 152, 0.9);
-          border: 1px solid #333;
+          border: 1px solid rgb(167, 167, 167);
           border-radius: 5px;
           display: inline-block;
           padding: 5px 3px;
@@ -1030,6 +1036,11 @@ footer .others{
     text-shadow: 1px 1px 2px red;
     margin-bottom: 5px;
   }
+
+  p{
+    width: 50%;
+    margin: 0 auto;
+  }
 }
 
 .row{
@@ -1064,7 +1075,7 @@ footer .others{
     .tsumiage-genre{
       width: 90%;
       background-color: rgba(255, 252, 70, 0.9);
-      border: 1px solid #333;
+      border: 1px solid rgb(167, 167, 167);
       border-radius: 5px;
       display: inline-block;
       padding: 5px 3px;
@@ -1326,6 +1337,10 @@ footer .others{
 // コメント
 
 .other-system{
+  .comment-decoration{
+    text-decoration: none;
+  }
+  
   .comment-text{
     display: flex;
   }

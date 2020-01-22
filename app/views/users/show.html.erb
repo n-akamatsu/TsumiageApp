@@ -44,7 +44,7 @@
             <h1>Analysis</h1>
             <span class="border"></span>
             <p>自分だけのオリジナル分析データ</p>
-            <%= link_to('分析データ', analysis_user_path(@user), class: 'tsumiage-btn') %>
+            <%= link_to('分析データを見る', analysis_user_path(@user), class: 'tsumiage-btn') %>
           </div>
         </div>
         <div class="cafe-search col-md-6">
@@ -80,7 +80,7 @@
       <%= form_tag user_path(@user), :method => 'get' do %>
         <p>
           <%= date_field_tag :date, params[:date], value: Time.now.strftime("%Y-%m-%d") %>
-          <%= submit_tag "検索", :date => nil%>
+          <%= submit_tag "検索", :date => nil %>
         </p>
       <% end %>
     </div>

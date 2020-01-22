@@ -1,11 +1,12 @@
-<%= link_to open_path(@tsumiage_id), method: :get, remote: true do %>
+<%= link_to open_path(@tsumiage_id), method: :get, remote: true, class: 'comment-decoration' do %>
   <div class="comment-text">
     <p>
+      <i class="far fa-comment-dots"></i>
       コメント
       <span id="comment-count-<%= @tsumiage_id %>">
         <%=Comment.where(post_id: @tsumiage_id).count%>
       </span>
-      件
+        件
     </p>
   </div>
 <% end %>
