@@ -1,10 +1,10 @@
 <header>
-  <div class="left">
-    <% if logged_in? %>
-      <h1><%= link_to "TsumiageApp", users_path, class: 'color-white' %></h1>
-    <% end %>
-  </div>
   <div class="wrapper">
+    <div class="left">
+      <% if logged_in? %>
+        <h1><%= link_to "TsumiageApp", users_path, class: 'color-white' %></h1>
+      <% end %>
+    </div>
     <div class="menu-trigger" href="">
       <span></span>
       <span></span>

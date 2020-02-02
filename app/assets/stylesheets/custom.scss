@@ -7,6 +7,10 @@ body {
   background-color: #DEFBF4;
 }
 
+#gmap{
+  margin-top: 75px;
+}
+
 // フラッシュ
 
 .flash{
@@ -28,13 +32,20 @@ header{
   z-index: 100;
 
   .left{
-    position: absolute;
-    top: -12px;
-    left: 20px;
+    display: inline-block;
+    position: fixed;
+    z-index: 100;
+    vertical-align: middle;
+    top: 13px;
+    left: 30px;
+
+    h1{
+      margin: 0;
+    }
     
     .color-white{
       color: #333 !important;
-      font-size: 28px;
+      font-size: 30px;
       font-weight: bold;
       letter-spacing: 1px;
       text-shadow: 1px 1px 2px #fff;

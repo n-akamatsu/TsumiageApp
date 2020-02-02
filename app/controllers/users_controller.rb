@@ -66,6 +66,9 @@ class UsersController < ApplicationController
   end
 
 
+  
+  # 初期値として今日の日付を表示するためにそれぞれで分類
+
   def analysis
     @user = User.find_by(id: params[:id])
     @day = Date.today
