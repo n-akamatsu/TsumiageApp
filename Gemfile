@@ -14,7 +14,7 @@ gem 'coffee-rails', '~> 4.2'
 gem 'jbuilder', '~> 2.5'
 # gem 'redis', '~> 4.0'
 gem 'bcrypt', '~> 3.1.7'
-gem 'kaminari', '~> 0.17.0'
+gem 'kaminari', '~> 1.2.1'
 
 gem 'faker',                   '1.7.3'
 gem 'carrierwave',             '1.2.2'
